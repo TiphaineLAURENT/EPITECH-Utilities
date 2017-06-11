@@ -1,0 +1,72 @@
+#!/bin/sh
+
+USER=`cat ~/.gitconfig 2> /dev/null | grep -E "email" | awk '{ printf $NF }'`
+LOGIN='$USER@epitech.eu'
+
+read oth
+while [ -z $oth ]; do
+    echo "$oth"
+    echo "test"
+    read oth
+done
+
+if [[ $1 = "h" || $1 = "-h" || $1 == "help" || $1 = "--help" ]]; then
+
+    echo "Usage:"
+    echo -e "\tprepare_my_repo <name of repository> <user 2> <user 3> <user 4> <user 5>"
+    echo -e "\tUsers 2 to 5 are optional"
+    echo
+    echo -e "\tprepare_my_repo <help>"
+    echo -e "\tShow prepare_my_repo script's usage"
+
+elif [[ -z $1 ]]; then
+
+    blih -u $LOGIN repository create $1
+    blih -u $LOGIN repository setacl $1 ramassage-tek r
+
+    echo "Droit de lecture attribué à ramassage-tek"
+
+    echo "ramassage-tek:r"
+    git clone git@git.epitech.eu:/$USER/$2
+
+fi
+
+if [ -z $2 ]; then
+
+	blih -u $LOGIN repository setacl $1 $2 rw
+	
+	echo "Droit de lecture et d'écriture attribué à $2"
+	
+fi
+
+if [ -z $3 ]; then
+
+	blih -u $LOGIN repository setacl $1 $3 rw
+	
+	echo "Droit de lecture et d'écriture attribué à $3"
+	
+fi
+
+if [ -z $4 ]; then
+
+	blih -u $LOGIN repository setacl $1 $4 rw
+	
+	echo "Droit de lecture et d'écriture attribué à $4"
+	
+fi
+
+if [ -z $5 ]; then
+
+	blih -u $LOGIN repository setacl $1 $5 rw
+	
+	echo "Droit de lecture et d'écriture attribué à $5"
+	
+fi
+
+if [ -z $6 ]; then
+
+	blih -u $LOGIN repository setacl $1 $6 rw
+	
+	echo "Droit de lecture et d'écriture attribué à $6"
+	
+fi
