@@ -7,40 +7,40 @@ make_n() {
     echo -e "RM\t\t=\trm -f" >> Makefile
     echo >> Makefile
 
-	echo -e "CFLAGS\t\t=\t-W -Wall -Wextra -Werror -Wshadow" >> Makefile
-	echo -e "#CFLAGS\t\t+=\t-fstack-protector-strong" >> Makefile
-	echo >> Makefile
+    echo -e "CFLAGS\t\t=\t-W -Wall -Wextra -Werror -Wshadow" >> Makefile
+    echo -e "#CFLAGS\t\t+=\t-fstack-protector-strong" >> Makefile
+    echo >> Makefile
 
-	echo -e "CPPFLAGS\t=\t-I include" >> Makefile
-	echo >> Makefile
+    echo -e "CPPFLAGS\t=\t-I include" >> Makefile
+    echo >> Makefile
 
-	if [[ "$libmy" == "o" ]] || [[ "$libmy" == "oui" ]];
-	then
+    if [[ "$libmy" == "o" ]] || [[ "$libmy" == "oui" ]];
+    then
 	echo -e "LDFLAGS\t\t+=\t-l my -L libs_srcs" >> Makefile
-	fi
+    fi
 
-	if [[ "$libm" == "o" ]] || [[ "$libm" == "oui" ]];
-	then
+    if [[ "$libm" == "o" ]] || [[ "$libm" == "oui" ]];
+    then
 	echo -e "LDFLAGS\t\t+=\t-l my -L libs_srcs" >> Makefile
-	fi
+    fi
 
-	if [[ "$libgraph" == "o" ]] || [[ "$libgraph" == "oui" ]];
-	then
+    if [[ "$libgraph" == "o" ]] || [[ "$libgraph" == "oui" ]];
+    then
 	echo -e "LDFLAGS\t\t+=\t-l my -L libs_srcs" >> Makefile
-	fi
+    fi
 	
-	echo >> Makefile
+    echo >> Makefile
 
     echo "Source Directory:"
     read src_dir
 
-	echo -e "SRC_DIR\t\t=\t$src_dir" >> Makefile
+    echo -e "SRC_DIR\t\t=\t$src_dir" >> Makefile
 
     echo -e "SRC_FILES\t=\tmain.c\t\\" >> Makefile
     echo >> Makefile
 
-	echo -e "SRCS\t\t=\t\$(addprefix \$(SRC_DIR)/, \$(SRC_FILES))" >> Makefile
-	echo >> Makefile
+    echo -e "SRCS\t\t=\t\$(addprefix \$(SRC_DIR)/, \$(SRC_FILES))" >> Makefile
+    echo >> Makefile
 
     echo -e "OBJS\t\t=\t\$(SRCS:.c=.o)" >> Makefile
     echo >> Makefile
@@ -79,16 +79,19 @@ make_n() {
     echo -e ".PHONY:\t\tall clean fclean re" >> Makefile
 }
 
-echo "##Press Ctrl+H then enter this file name and press enter" >> Makefile
+echo "##Press Ctrl+H then enter this file name and press enter" > Makefile
 echo >> Makefile
 
 echo "Does your Makefile needs the libmy ? : [o/n]"
 read libmy
+libmy="${libmy,,}"
 
 echo "Does your Makefile needs the math lib ? : [o/n]"
 read libm
+libm="${libm,,}"
 
 echo "Does your Makefile needs the graphical lib ? : [o/n]"
 read libgraph
+libgraph="${libgraph,,}"
 
 make_n
