@@ -33,6 +33,7 @@ make_n() {
 
     echo "Source Directory:"
     read src_dir
+    echo
 
     echo -e "SRC_DIR\t\t=\t$src_dir" >> Makefile
 
@@ -47,6 +48,7 @@ make_n() {
 
     echo "Binary Name"
     read bin_name
+    echo
 
     echo -e "NAME\t\t=\t$bin_name" >> Makefile
     echo >> Makefile
@@ -79,19 +81,32 @@ make_n() {
     echo -e ".PHONY:\t\tall clean fclean re" >> Makefile
 }
 
+header()
+{
+    clear
+    for i in $(eval echo "{1..$(tput cols)}"); do echo -n "T"; done
+    echo
+    echo
+}
+
+header
+
 echo "##Press Ctrl+H then enter this file name and press enter" > Makefile
 echo >> Makefile
 
 echo "Does your Makefile needs the libmy ? : [o/n]"
 read libmy
+echo
 libmy="${libmy,,}"
 
 echo "Does your Makefile needs the math lib ? : [o/n]"
 read libm
+echo
 libm="${libm,,}"
 
 echo "Does your Makefile needs the graphical lib ? : [o/n]"
 read libgraph
+echo
 libgraph="${libgraph,,}"
 
 make_n
