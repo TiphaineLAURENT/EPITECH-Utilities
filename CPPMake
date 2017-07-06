@@ -52,9 +52,9 @@ add_libsfml()
     then
 	if [[ "$lib" == "on" ]];
 	then
-	    echo -e "LDFLAGS\t\t+=\t-lsfml-audio -lsfml-graphics -lsfml-network -lsfml-system sfml-window" >> Makefile
+	    echo -e "LDFLAGS\t\t+=\t-lsfml-audio -lsfml-graphics -lsfml-network -lsfml-system -lsfml-window" >> Makefile
 	else
-	    echo -e "LDFLAGS\t\t=\t-lsfml-audio -lsfml-graphics -lsfml-network -lsfml-system sfml-window" >> Makefile
+	    echo -e "LDFLAGS\t\t=\t-lsfml-audio -lsfml-graphics -lsfml-network -lsfml-system -lsfml-window" >> Makefile
 	fi
 	lib="on"
     fi
@@ -86,9 +86,13 @@ make_n() {
     read src_dir
     echo
 
+    echo -e "CLASS_DIR\t=\tclass" >> Makefile
+    echo -e "CLASS_SRC\t=\t" >> Makefile
+    echo >> Makefile
+    
     echo -e "SRC_DIR\t\t=\t$src_dir" >> Makefile
-
-    echo -e "SRC_FILES\t=\tmain.cpp\t\\" >> Makefile
+    echo -e "SRC_FILES\t=\t\$(addprefix \$(CLASS_DIR)/, \$(CLASS_SRC))\t\\" >> Makefile
+    echo -e "\t\t\tmain.cpp\t\t\t\t\t\\" >> Makefile
     echo >> Makefile
 
     echo -e "SRCS\t\t=\t\$(addprefix \$(SRC_DIR)/, \$(SRC_FILES))" >> Makefile

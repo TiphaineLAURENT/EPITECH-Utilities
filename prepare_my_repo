@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 USER=`cat ~/.gitconfig 2> /dev/null | grep -E "email" | awk '{ printf $NF }'`
 LOGIN='$USER@epitech.eu'
