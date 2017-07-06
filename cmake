@@ -16,17 +16,17 @@ make_n() {
 
     if [[ "$libmy" == "o" ]] || [[ "$libmy" == "oui" ]];
     then
-	echo -e "LDFLAGS\t\t+=\t-l my -L libs_srcs" >> Makefile
+	echo -e "LDFLAGS\t\t+=\t-lmy -Llibs_srcs" >> Makefile
     fi
 
     if [[ "$libm" == "o" ]] || [[ "$libm" == "oui" ]];
     then
-	echo -e "LDFLAGS\t\t+=\t-l my -L libs_srcs" >> Makefile
+	echo -e "LDFLAGS\t\t+=\t-lm" >> Makefile
     fi
 
     if [[ "$libgraph" == "o" ]] || [[ "$libgraph" == "oui" ]];
     then
-	echo -e "LDFLAGS\t\t+=\t-l my -L libs_srcs" >> Makefile
+	echo -e "LDFLAGS\t\t+=\t-lc_graph_prog_full" >> Makefile
     fi
 	
     echo >> Makefile
@@ -104,7 +104,7 @@ read libm
 echo
 libm="${libm,,}"
 
-echo "Does your Makefile needs the graphical lib ? : [o/n]"
+echo "Does your Makefile needs the CSFML lib ? : [o/n]"
 read libgraph
 echo
 libgraph="${libgraph,,}"
