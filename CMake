@@ -67,9 +67,9 @@ add_libsfml()
     then
 	if [[ "$lib" == "on" ]];
 	then
-	    echo -e "LDFLAGS\t\t+=\t-lsfml-audio -lsfml-graphics -lsfml-network -lsfml-system sfml-window" >> Makefile
+	    echo -e "LDFLAGS\t\t+=\t-lsfml-audio -lsfml-graphics -lsfml-network -lsfml-system -lsfml-window" >> Makefile
 	else
-	    echo -e "LDFLAGS\t\t=\t-lsfml-audio -lsfml-graphics -lsfml-network -lsfml-system sfml-window" >> Makefile
+	    echo -e "LDFLAGS\t\t=\t-lsfml-audio -lsfml-graphics -lsfml-network -lsfml-system -lsfml-window" >> Makefile
 	fi
 	lib="on"
     fi
