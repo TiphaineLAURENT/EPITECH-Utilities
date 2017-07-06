@@ -1,23 +1,8 @@
 #!/bin/bash
 
-add_libmy()
-{
-    echo "Does your Makefile needs the libmy ? : [o/n]"
-    read libmy
-    echo
-    local libmy="${libmy,,}"
-
-    if [[ "$libmy" == "o" ]] || [[ "$libmy" == "oui" ]] ||
-	   [[ "$libmy" == "y" ]] || [[ "$libmy" == "yes" ]];
-    then
-	echo -e "LDFLAGS\t\t=\t-lmy -Llibs_srcs" >> Makefile
-	lib="on"
-    fi
-}
-
 add_libmath()
 {
-    echo "Does your Makefile needs the math lib ? : [o/n]"
+    echo "Does your Makefile needs the Math lib ? : [o/n]"
     read libm
     echo
     local libm="${libm,,}"
@@ -35,43 +20,63 @@ add_libmath()
     fi
 }
 
-add_libcsfml()
+add_libopengl()
 {
-    echo "Does your Makefile needs the CSFML lib ? : [o/n]"
-    read libcsfml
+    echo "Does your Makefile needs the OpenGL lib ? : [o/n]"
+    read libGL
     echo
-    local libcsfml="${libcsfml,,}"
+    local libGL="${libGL,,}"
 
-    if [[ "$libcsfml" == "o" ]] || [[ "$libcsfml" == "oui" ]] ||
-	   [[ "$libcsfml" == "y" ]] || [[ "$libcsfml" == "yes" ]];
+    if [[ "$libGL" == "o" ]] || [[ "$libGL" == "oui" ]] ||
+	   [[ "$libGL" == "y" ]] || [[ "$libGL" == "yes" ]];
     then
 	if [[ "$lib" == "on" ]];
 	then
-	    echo -e "LDFLAGS\t\t+=\t-lc_graph_prog_full" >> Makefile
+	    echo -e "LDFLAGS\t\t+=\t-lGL" >> Makefile
 	else
-	    echo -e "LDFLAGS\t\t=\t-lc_graph_prog_full" >> Makefile
+	    echo -e "LDFLAGS\t\t=\t-lGL" >> Makefile
+	fi
+	lib="on"
+    fi
+}
+
+add_libsfml()
+{
+    echo "Does your Makefile needs the SFML lib ? : [o/n]"
+    read libsfml
+    echo
+    local libsfml="${libsfml,,}"
+    
+    if [[ "$libsfml" == "o" ]] || [[ "$libsfml" == "oui" ]] ||
+	   [[ "$libsfml" == "y" ]] || [[ "$libsfml" == "yes" ]];
+    then
+	if [[ "$lib" == "on" ]];
+	then
+	    echo -e "LDFLAGS\t\t+=\t-lsfml-audio -lsfml-graphics -lsfml-network -lsfml-system sfml-window" >> Makefile
+	else
+	    echo -e "LDFLAGS\t\t=\t-lsfml-audio -lsfml-graphics -lsfml-network -lsfml-system sfml-window" >> Makefile
 	fi
 	lib="on"
     fi
 }
 
 make_n() {
-    echo -e "CC\t\t=\tgcc" >> Makefile
+    echo -e "XX\t\t=\tg++" >> Makefile
     echo >> Makefile
 
     echo -e "RM\t\t=\trm -f" >> Makefile
     echo >> Makefile
 
-    echo -e "CFLAGS\t\t=\t-W -Wall -Wextra -Werror -Wshadow" >> Makefile
-    echo -e "CFLAGS\t\t+=\t-fstack-protector-strong" >> Makefile
+    echo -e "CXXFLAGS\t\t=\t-W -Wall -Wextra -Werror -Wshadow" >> Makefile
+    echo -e "CXXFLAGS\t\t+=\t-fstack-protector-strong" >> Makefile
     echo >> Makefile
 
     echo -e "CPPFLAGS\t=\t-I include" >> Makefile
     echo >> Makefile
 
-    add_libmy
     add_libmath
-    add_libcsfml
+    add_libopengl
+    add_libsfml
     if [[ "$lib" == "on" ]];
        then
 	   echo >> Makefile
@@ -83,13 +88,13 @@ make_n() {
 
     echo -e "SRC_DIR\t\t=\t$src_dir" >> Makefile
 
-    echo -e "SRC_FILES\t=\tmain.c\t\\" >> Makefile
+    echo -e "SRC_FILES\t=\tmain.cpp\t\\" >> Makefile
     echo >> Makefile
 
     echo -e "SRCS\t\t=\t\$(addprefix \$(SRC_DIR)/, \$(SRC_FILES))" >> Makefile
     echo >> Makefile
 
-    echo -e "OBJS\t\t=\t\$(SRCS:.c=.o)" >> Makefile
+    echo -e "OBJS\t\t=\t\$(SRCS:.cpp=.o)" >> Makefile
     echo >> Makefile
 
     echo "Binary Name"
@@ -106,9 +111,9 @@ make_n() {
 
     if [[ "$lib" == "on" ]];
     then
-	echo -e "\t\t\$(CC) -o \$(NAME) \$(OBJS) \$(LDFLAGS)" >> Makefile
+	echo -e "\t\t\$(XX) -o \$(NAME) \$(OBJS) \$(LDFLAGS)" >> Makefile
     else
-	echo -e	"\t\t\$(CC) -o \$(NAME) \$(OBJS)" >> Makefile
+	echo -e	"\t\t\$(XX) -o \$(NAME) \$(OBJS)" >> Makefile
     fi
 
     echo >> Makefile
