@@ -1,0 +1,164 @@
+#!/bin/bash
+
+add_libmy()
+{
+    echo "Does your Makefile needs the libmy ? : [o/n]"
+    read libmy
+    echo
+    local libmy="${libmy,,}"
+
+    if [[ "$libmy" == "o" ]] || [[ "$libmy" == "oui" ]] ||
+	   [[ "$libmy" == "y" ]] || [[ "$libmy" == "yes" ]];
+    then
+	echo -e "LDFLAGS\t\t=\t-lmy -Llibs_srcs" >> Makefile
+	lib="on"
+    fi
+}
+
+add_libmath()
+{
+    echo "Does your Makefile needs the math lib ? : [o/n]"
+    read libm
+    echo
+    local libm="${libm,,}"
+
+    if [[ "$libm" == "o" ]] || [[ "$libm" == "oui" ]] ||
+	   [[ "$libm" == "y" ]] || [[ "$libm" == "yes" ]];
+    then
+	if [[ "$lib" == "on" ]];
+	then
+	    echo -e "LDFLAGS\t\t+=\t-lm" >> Makefile
+	else
+	    echo -e "LDFLAGS\t\t=\t-lm" >> Makefile
+	fi
+	lib="on"
+    fi
+}
+
+add_libcsfml()
+{
+    echo "Does your Makefile needs the CSFML lib ? : [o/n]"
+    read libcsfml
+    echo
+    local libcsfml="${libcsfml,,}"
+
+    if [[ "$libcsfml" == "o" ]] || [[ "$libcsfml" == "oui" ]] ||
+	   [[ "$libcsfml" == "y" ]] || [[ "$libcsfml" == "yes" ]];
+    then
+	if [[ "$lib" == "on" ]];
+	then
+	    echo -e "LDFLAGS\t\t+=\t-lc_graph_prog_full" >> Makefile
+	else
+	    echo -e "LDFLAGS\t\t=\t-lc_graph_prog_full" >> Makefile
+	fi
+	lib="on"
+    fi
+}
+
+add_libsfml()
+{
+    echo "Does your Makefile needs the SFML lib ? : [o/n]"
+    read libsfml
+    echo
+    local libsfml="${libsfml,,}"
+    
+    if [[ "$libsfml" == "o" ]] || [[ "$libsfml" == "oui" ]] ||
+	   [[ "$libsfml" == "y" ]] || [[ "$libsfml" == "yes" ]];
+    then
+	if [[ "$lib" == "on" ]];
+	then
+	    echo -e "LDFLAGS\t\t+=\t-lsfml-audio -lsfml-graphics -lsfml-network -lsfml-system sfml-window" >> Makefile
+	else
+	    echo -e "LDFLAGS\t\t=\t-lsfml-audio -lsfml-graphics -lsfml-network -lsfml-system sfml-window" >> Makefile
+	fi
+	lib="on"
+    fi
+}
+
+make_n() {
+    echo -e "CC\t\t=\tgcc" >> Makefile
+    echo >> Makefile
+
+    echo -e "RM\t\t=\trm -f" >> Makefile
+    echo >> Makefile
+
+    echo -e "CFLAGS\t\t=\t-W -Wall -Wextra -Werror -Wshadow" >> Makefile
+    echo -e "CFLAGS\t\t+=\t-fstack-protector-strong" >> Makefile
+    echo >> Makefile
+
+    echo -e "CPPFLAGS\t=\t-I include" >> Makefile
+    echo >> Makefile
+
+    add_libmy
+    add_libmath
+    add_libcsfml
+    add_libsfml
+    if [[ "$lib" == "on" ]];
+       then
+	   echo >> Makefile
+    fi
+
+    echo "Source Directory:"
+    read src_dir
+    echo
+
+    echo -e "SRC_DIR\t\t=\t$src_dir" >> Makefile
+
+    echo -e "SRC_FILES\t=\tmain.c\t\\" >> Makefile
+    echo >> Makefile
+
+    echo -e "SRCS\t\t=\t\$(addprefix \$(SRC_DIR)/, \$(SRC_FILES))" >> Makefile
+    echo >> Makefile
+
+    echo -e "OBJS\t\t=\t\$(SRCS:.c=.o)" >> Makefile
+    echo >> Makefile
+
+    echo "Binary Name"
+    read bin_name
+    echo
+
+    echo -e "NAME\t\t=\t$bin_name" >> Makefile
+    echo >> Makefile
+
+    echo -e "all:\t\t\$(NAME)" >> Makefile
+    echo >> Makefile
+
+    echo -e "\$(NAME):\t\$(OBJS)" >> Makefile
+
+    if [[ "$lib" == "on" ]];
+    then
+	echo -e "\t\t\$(CC) -o \$(NAME) \$(OBJS) \$(LDFLAGS)" >> Makefile
+    else
+	echo -e	"\t\t\$(CC) -o \$(NAME) \$(OBJS)" >> Makefile
+    fi
+
+    echo >> Makefile
+
+    echo "clean:" >> Makefile
+    echo -e "\t\t\$(RM) \$(OBJS)" >> Makefile
+    echo >> Makefile
+
+    echo -e "fclean:\t\tclean" >> Makefile
+    echo -e "\t\t\$(RM) \$(NAME)" >> Makefile
+    echo >> Makefile
+
+    echo -e "re:\t\tfclean all" >> Makefile
+    echo >> Makefile
+
+    echo -e ".PHONY:\t\tall clean fclean re" >> Makefile
+}
+
+header()
+{
+    clear
+    for i in $(eval echo "{1..$(tput cols)}"); do echo -n "T"; done
+    echo
+    echo
+}
+
+header
+
+echo "##Press Ctrl+H then enter this file name and press enter" > Makefile
+echo >> Makefile
+
+make_n
