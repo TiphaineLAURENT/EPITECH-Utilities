@@ -14,10 +14,10 @@ add_libmy()
     echo "Does your Makefile needs the libmy ? : [o/n]"
     read libmy
     echo
-    local libmy="${libmy,,}"
+    local libmy=${libmy,,}
 
-    if [[ "$libmy" == "o" ]] || [[ "$libmy" == "oui" ]] ||
-	   [[ "$libmy" == "y" ]] || [[ "$libmy" == "yes" ]];
+    if [[ $libmy == "o" ]] || [[ $libmy == "oui" ]] ||
+	   [[ $libmy == "y" ]] || [[ $libmy == "yes" ]];
     then
 	echo -e "LDFLAGS\t\t=\t-lmy -Llibs_srcs" >> Makefile
 	lib="on"
@@ -29,12 +29,12 @@ add_libmath()
     echo "Does your Makefile needs the math lib ? : [o/n]"
     read libm
     echo
-    local libm="${libm,,}"
+    local libm=${libm,,}
 
-    if [[ "$libm" == "o" ]] || [[ "$libm" == "oui" ]] ||
-	   [[ "$libm" == "y" ]] || [[ "$libm" == "yes" ]];
+    if [[ $libm == "o" ]] || [[ $libm == "oui" ]] ||
+	   [[ $libm == "y" ]] || [[ $libm == "yes" ]];
     then
-	if [[ "$lib" == "on" ]];
+	if [[ $lib == "on" ]];
 	then
 	    echo -e "LDFLAGS\t\t+=\t-lm" >> Makefile
 	else
@@ -49,12 +49,12 @@ add_libcsfml()
     echo "Does your Makefile needs the CSFML lib ? : [o/n]"
     read libcsfml
     echo
-    local libcsfml="${libcsfml,,}"
+    local libcsfml=${libcsfml,,}
 
-    if [[ "$libcsfml" == "o" ]] || [[ "$libcsfml" == "oui" ]] ||
-	   [[ "$libcsfml" == "y" ]] || [[ "$libcsfml" == "yes" ]];
+    if [[ $libcsfml == "o" ]] || [[ $libcsfml == "oui" ]] ||
+	   [[ $libcsfml == "y" ]] || [[ $libcsfml == "yes" ]];
     then
-	if [[ "$lib" == "on" ]];
+	if [[ $lib == "on" ]];
 	then
 	    echo -e "LDFLAGS\t\t+=\t-lc_graph_prog_full" >> Makefile
 	else
@@ -80,10 +80,10 @@ add_flags()
     echo "Are you compling for you own platform ? [o/platform]"
     read platform
     echo
-    local platform="${platform,,}"
+    local platform=${platform,,}
 
-    if [[ "$platform" == "yes" ]] || [[ "$platform" == "oui" ]] ||
-	   [[ "$platform" == "y" ]] || [[ "$platform" == "o" ]];
+    if [[ $platform == "yes" ]] || [[ $platform == "oui" ]] ||
+	   [[ $platform == "y" ]] || [[ $platform == "o" ]];
     then
 	echo -ne "CFLAGS\t\t+=\t-march=native" >> Makefile
     else
@@ -93,10 +93,10 @@ add_flags()
     echo "Do you want to keep preprocessor and assembly file (.ii and .s) ?"
     read temp
     echo
-    temp="${temp,,}"
+    temp=${temp,,}
 
-    if [[ "$temp" == "yes" ]] || [[ "$temp" == "oui" ]] ||
-	   [[ "$temp" == "y" ]] || [[ "$temp" == "o" ]];
+    if [[ $temp == "yes" ]] || [[ $temp == "oui" ]] ||
+	   [[ $temp == "y" ]] || [[ $temp == "o" ]];
     then
 	temp="on"
 	echo " -save-temps" >> Makefile
@@ -120,7 +120,7 @@ make_n() {
     add_libmy
     add_libmath
     add_libcsfml
-    if [[ "$lib" == "on" ]];
+    if [[ $lib == "on" ]];
        then
 	   echo >> Makefile
     fi
@@ -130,7 +130,7 @@ make_n() {
     echo >> Makefile
 
     echo -e "SRCS\t\t=\t\$(addprefix \$(SRC_DIR)/, \$(SRC_FILES))" >> Makefile
-    if [[ "$temp" == "on" ]];
+    if [[ $temp == "on" ]];
     then
 	echo -e "SRCS_NAME\t=\t\$(basename \$(SRCS))" >> Makefile
 	echo -e "SRCS_TEMP\t=\t\$(notdir \$(SRCS_NAME).s \$(SRCS_NAME).i)" >> Makefile
@@ -152,7 +152,7 @@ make_n() {
 
     echo -e "\$(NAME):\t\$(OBJS)" >> Makefile
 
-    if [[ "$lib" == "on" ]];
+    if [[ $lib == "on" ]];
     then
 	echo -e "\t\t\$(CC) -o \$(NAME) \$(OBJS) \$(LDFLAGS)" >> Makefile
     else
@@ -163,7 +163,7 @@ make_n() {
 
     echo "clean:" >> Makefile
     echo -e "\t\t\$(RM) \$(OBJS)" >> Makefile
-    if [[ "$temp" == "on" ]];
+    if [[ $temp == "on" ]];
     then
 	echo -e "\t\t\$(RM) \$(SRCS_TEMP)" >> Makefile
     fi
