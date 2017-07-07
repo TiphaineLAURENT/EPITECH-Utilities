@@ -1,3 +1,17 @@
-#!/bin/sh
+#!/bin/bash
 
-find -type f \( -name "*~" -o -name "#*#" -o -name "*.o" \) -print -delete
+option=$1
+option="${option,,}"
+
+delete="-delete"
+print="-print"
+
+if [[ "$option" == "-h" ]] || [[ "$option" == "-hide" ]];
+then
+    unset print
+elif [[ "$option" == "-k" ]] || [[ "$option" == "-keep" ]];
+then
+    unset delete
+fi
+
+find -type f \( -name "*~" -o -name "#*#" -o -name "*.o" \) $print $delete
