@@ -85,9 +85,9 @@ add_flags()
     if [[ "$platform" == "yes" ]] || [[ "$platform" == "oui" ]] ||
 	   [[ "$platform" == "y" ]] || [[ "$platform" == "o" ]];
     then
-	echo -ne "CFLAGS\t+=\t-march=native" >> Makefile
+	echo -ne "CFLAGS\t\t+=\t-march=native" >> Makefile
     else
-	echo -ne "CFLAGS\t+=\t-march=$platform" >> Makefile
+	echo -ne "CFLAGS\t\t+=\t-march=$platform" >> Makefile
     fi
 
     echo "Do you want to keep preprocessor and assembly file (.ii and .s) ?"
