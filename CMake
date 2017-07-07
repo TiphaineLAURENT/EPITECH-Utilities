@@ -1,5 +1,14 @@
 #!/bin/bash
 
+########### CONSTANT VARIABLES ###########
+
+BITS32="i686"
+BITS64="x86_64"
+
+SRC_DIR="src"
+
+##########################################
+
 add_libmy()
 {
     echo "Does your Makefile needs the libmy ? : [o/n]"
@@ -55,6 +64,47 @@ add_libcsfml()
     fi
 }
 
+add_flags()
+{
+    echo -e "CFLAGS\t\t=\t-W -Wall -Wextra -Werror -Wshadow -Wunreachable-code -Wconversion -Wstrict-prototypes" >> Makefile
+    echo -e "CFLAGS\t\t+=\t-Wswitch-default -Wswitch-enum" >> Makefile
+    echo -e "CFLAGS\t\t+=\t-Wuninitialized -Winit-self" >> Makefile
+    echo -e "CFLAGS\t\t+=\t-fstack-protector-strong" >> Makefile
+    echo -e "CFLAGS\t\t+=\t-pedantic" >> Makefile
+
+    if [[ $HOSTTYPE == $BITS32 ]];
+    then
+	echo -e "CFLAGS\t\t+=\t-Wdouble-promotion" >> Makefile
+    fi
+
+    echo "Are you compling for you own platform ? [o/platform]"
+    read platform
+    echo
+    local platform="${platform,,}"
+
+    if [[ "$platform" == "yes" ]] || [[ "$platform" == "oui" ]] ||
+	   [[ "$platform" == "y" ]] || [[ "$platform" == "o" ]];
+    then
+	echo -ne "CFLAGS\t+=\t-march=native" >> Makefile
+    else
+	echo -ne "CFLAGS\t+=\t-march=$platform" >> Makefile
+    fi
+
+    echo "Do you want to keep preprocessor and assembly file (.ii and .s) ?"
+    read temp
+    echo
+    temp="${temp,,}"
+
+    if [[ "$temp" == "yes" ]] || [[ "$temp" == "oui" ]] ||
+	   [[ "$temp" == "y" ]] || [[ "$temp" == "o" ]];
+    then
+	temp="on"
+	echo " -save-temps" >> Makefile
+    fi
+
+    echo >> Makefile
+}
+
 make_n() {
     echo -e "CC\t\t=\tgcc" >> Makefile
     echo >> Makefile
@@ -62,9 +112,7 @@ make_n() {
     echo -e "RM\t\t=\trm -f" >> Makefile
     echo >> Makefile
 
-    echo -e "CFLAGS\t\t=\t-W -Wall -Wextra -Werror -Wshadow" >> Makefile
-    echo -e "CFLAGS\t\t+=\t-fstack-protector-strong" >> Makefile
-    echo >> Makefile
+    add_flags
 
     echo -e "CPPFLAGS\t=\t-I include" >> Makefile
     echo >> Makefile
@@ -77,16 +125,16 @@ make_n() {
 	   echo >> Makefile
     fi
 
-    echo "Source Directory:"
-    read src_dir
-    echo
-
-    echo -e "SRC_DIR\t\t=\t$src_dir" >> Makefile
-
+    echo -e "SRC_DIR\t\t=\tsrc" >> Makefile
     echo -e "SRC_FILES\t=\tmain.c\t\\" >> Makefile
     echo >> Makefile
 
     echo -e "SRCS\t\t=\t\$(addprefix \$(SRC_DIR)/, \$(SRC_FILES))" >> Makefile
+    if [[ "$temp" == "on" ]];
+    then
+	echo -e "SRCS_NAME\t=\t\$(basename \$(SRCS))" >> Makefile
+	echo -e "SRCS_TEMP\t=\t\$(notdir \$(SRCS_NAME).s \$(SRCS_NAME).i)" >> Makefile
+    fi
     echo >> Makefile
 
     echo -e "OBJS\t\t=\t\$(SRCS:.c=.o)" >> Makefile
@@ -115,6 +163,10 @@ make_n() {
 
     echo "clean:" >> Makefile
     echo -e "\t\t\$(RM) \$(OBJS)" >> Makefile
+    if [[ "$temp" == "on" ]];
+    then
+	echo -e "\t\t\$(RM) \$(SRCS_TEMP)" >> Makefile
+    fi
     echo >> Makefile
 
     echo -e "fclean:\t\tclean" >> Makefile

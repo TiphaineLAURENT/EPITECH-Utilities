@@ -1,5 +1,15 @@
 #!/bin/bash
 
+########### CONSTANT VARIABLES ###########
+
+BITS32="i686"
+BITS64="x86_64"
+
+SRC_DIR="src"
+CLASS_DIR="class"
+
+##########################################
+
 add_libmath()
 {
     echo "Does your Makefile needs the Math lib ? : [o/n]"
@@ -7,8 +17,8 @@ add_libmath()
     echo
     local libm="${libm,,}"
 
-    if [[ "$libm" == "o" ]] || [[ "$libm" == "oui" ]] ||
-	   [[ "$libm" == "y" ]] || [[ "$libm" == "yes" ]];
+    if [[ "$libm" == "yes" ]] || [[ "$libm" == "oui" ]] ||
+	   [[ "$libm" == "y" ]] || [[ "$libm" == "o" ]];
     then
 	if [[ "$lib" == "on" ]];
 	then
@@ -27,8 +37,8 @@ add_libopengl()
     echo
     local libGL="${libGL,,}"
 
-    if [[ "$libGL" == "o" ]] || [[ "$libGL" == "oui" ]] ||
-	   [[ "$libGL" == "y" ]] || [[ "$libGL" == "yes" ]];
+    if [[ "$libGL" == "yes" ]] || [[ "$libGL" == "oui" ]] ||
+	   [[ "$libGL" == "y" ]] || [[ "$libGL" == "o" ]];
     then
 	if [[ "$lib" == "on" ]];
 	then
@@ -46,9 +56,9 @@ add_libsfml()
     read libsfml
     echo
     local libsfml="${libsfml,,}"
-    
-    if [[ "$libsfml" == "o" ]] || [[ "$libsfml" == "oui" ]] ||
-	   [[ "$libsfml" == "y" ]] || [[ "$libsfml" == "yes" ]];
+
+    if [[ "$libsfml" == "yes" ]] || [[ "$libsfml" == "oui" ]] ||
+	   [[ "$libsfml" == "y" ]] || [[ "$libsfml" == "o" ]];
     then
 	if [[ "$lib" == "on" ]];
 	then
@@ -60,6 +70,47 @@ add_libsfml()
     fi
 }
 
+add_flags()
+{
+    echo -e "CXXFLAGS\t=\t-W -Wall -Wextra -Werror -Wshadow -Wunreachable-code -Wconversion" >> Makefile
+    echo -e "CXXFLAGS\t+=\t-Wswitch-default -Wswitch-enum" >> Makefile
+    echo -e "CXXFLAGS\t+=\t-Wuninitialized -Winit-self" >> Makefile
+    echo -e "CXXFLAGS\t+=\t-fstack-protector-strong" >> Makefile
+    echo -e "CXXFLAGS\t+=\t-pedantic" >> Makefile
+
+    if [[ $HOSTTYPE == $BITS32 ]];
+    then
+	echo -e "CXXFLAGS\t+=\t-Wdouble-promotion" >> Makefile
+    fi
+
+    echo "Are you compling for you own platform ? [o/platform]"
+    read platform
+    echo
+    local platform="${platform,,}"
+
+    if [[ "$platform" == "yes" ]] || [[ "$platform" == "oui" ]] ||
+	   [[ "$platform" == "y" ]] || [[ "$platform" == "o" ]];
+    then
+	echo -ne "CXXFLAGS\t+=\t-march=native" >> Makefile
+    else
+	echo -ne "CXXFLAGS\t+=\t-march=$platform" >> Makefile
+    fi
+
+    echo "Do you want to keep preprocessor and assembly file (.ii and .s) ?"
+    read temp
+    echo
+    temp="${temp,,}"
+
+    if [[ "$temp" == "yes" ]] || [[ "$temp" == "oui" ]] ||
+	   [[ "$temp" == "y" ]] || [[ "$temp" == "o" ]];
+    then
+	temp="on"
+	echo " -save-temps" >> Makefile
+    fi
+
+    echo >> Makefile
+}
+
 make_n() {
     echo -e "XX\t\t=\tg++" >> Makefile
     echo >> Makefile
@@ -67,9 +118,7 @@ make_n() {
     echo -e "RM\t\t=\trm -f" >> Makefile
     echo >> Makefile
 
-    echo -e "CXXFLAGS\t\t=\t-W -Wall -Wextra -Werror -Wshadow" >> Makefile
-    echo -e "CXXFLAGS\t\t+=\t-fstack-protector-strong" >> Makefile
-    echo >> Makefile
+    add_flags
 
     echo -e "CPPFLAGS\t=\t-I include" >> Makefile
     echo >> Makefile
@@ -82,20 +131,21 @@ make_n() {
 	   echo >> Makefile
     fi
 
-    echo "Source Directory:"
-    read src_dir
-    echo
-
-    echo -e "CLASS_DIR\t=\tclass" >> Makefile
-    echo -e "CLASS_SRC\t=\t" >> Makefile
+    echo -e "CLASS_DIR\t=\t$CLASS_DIR" >> Makefile
+    echo -e "CLASS_SRC\t=\t\\" >> Makefile
     echo >> Makefile
-    
-    echo -e "SRC_DIR\t\t=\t$src_dir" >> Makefile
+
+    echo -e "SRC_DIR\t\t=\t$SRC_DIR" >> Makefile
     echo -e "SRC_FILES\t=\t\$(addprefix \$(CLASS_DIR)/, \$(CLASS_SRC))\t\\" >> Makefile
     echo -e "\t\t\tmain.cpp\t\t\t\t\t\\" >> Makefile
     echo >> Makefile
 
     echo -e "SRCS\t\t=\t\$(addprefix \$(SRC_DIR)/, \$(SRC_FILES))" >> Makefile
+    if [[ "$temp" == "on" ]];
+    then
+	echo -e "SRCS_NAME\t=\t\$(basename \$(SRCS))" >> Makefile
+	echo -e "SRCS_TEMP\t=\t\$(notdir \$(SRCS_NAME).s \$(SRCS_NAME).ii)" >> Makefile
+    fi
     echo >> Makefile
 
     echo -e "OBJS\t\t=\t\$(SRCS:.cpp=.o)" >> Makefile
@@ -124,6 +174,10 @@ make_n() {
 
     echo "clean:" >> Makefile
     echo -e "\t\t\$(RM) \$(OBJS)" >> Makefile
+    if [[ "$temp" == "on" ]];
+    then
+	echo -e "\t\t\$(RM) \$(SRCS_TEMP)" >> Makefile
+    fi
     echo >> Makefile
 
     echo -e "fclean:\t\tclean" >> Makefile
