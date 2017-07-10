@@ -1,17 +1,32 @@
 #!/bin/bash
 
-option=$1
-option="${option,,}"
+###### Actions ######
 
 delete="-delete"
 print="-print"
 
-if [[ "$option" == "-h" ]] || [[ "$option" == "-hide" ]];
+###### Options #######
+
+option1=$1
+option1=${option1,,}
+
+option2=$2
+option2=${option2,,}
+
+######################
+
+if [[ "$option1" == "-h" ]] || [[ "$option1" == "-hide" ]] ||
+       [[ "$option2" == "-h" ]] || [[ "$option2" == "-hide" ]];
 then
     unset print
-elif [[ "$option" == "-k" ]] || [[ "$option" == "-keep" ]];
+fi
+if [[ "$option1" == "-k" ]] || [[ "$option1" == "-keep" ]] ||
+       [[ "$option2" == "-k" ]] || [[ "$option2" == "-keep" ]];
 then
     unset delete
 fi
 
 find -type f \( -name "*~" -o -name "#*#" -o -name "*.o" \) $print $delete
+
+unset option1
+unset option2

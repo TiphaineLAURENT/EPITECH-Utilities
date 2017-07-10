@@ -11,7 +11,7 @@ SRC_DIR="src"
 
 add_libmy()
 {
-    echo "Does your Makefile needs the libmy ? : [o/n]"
+    echo "Does your Makefile needs your EPITECH library ? : [o/n]"
     read libmy
     echo
     local libmy=${libmy,,}
