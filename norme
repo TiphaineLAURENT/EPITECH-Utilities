@@ -11,7 +11,7 @@
 ##   variables editables        ##
 ##################################
 
-USERNAME=
+USERNAME=TiphaineLaurent
 
 ##################################
 ##   declaration des couleurs   ##
@@ -212,6 +212,10 @@ function check_header() # verifie le login du header
     echo -e "/*\n" > $TMP3
     local NAME=`cat $1 | head -n 4| tail -n 1 | sed "s/** Made by //"`
     local NB=0
+    echo $NAME
+    echo $USER
+    echo $USERNAME
+    echo "end"
     for USER in `cat $ALLOWED_U`; do
 	if [[ $NAME == $USER || $NAME == $USERNAME ]]; then
 	    NB=1;

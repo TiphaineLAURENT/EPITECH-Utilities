@@ -83,7 +83,7 @@ add_flags()
 	echo -e "CXXFLAGS\t+=\t-Wdouble-promotion" >> Makefile
     fi
 
-    echo "Are you compling for you own platform ? [o/platform]"
+    echo "Are you compling for you own platform ? : [o/platform]"
     read platform
     echo
     local platform="${platform,,}"
@@ -96,7 +96,7 @@ add_flags()
 	echo -ne "CXXFLAGS\t+=\t-march=$platform" >> Makefile
     fi
 
-    echo "Do you want to keep preprocessor and assembly file (.ii and .s) ?"
+    echo "Do you want to keep preprocessor and assembly file (.ii and .s) ? : [o/n]"
     read temp
     echo
     temp="${temp,,}"
