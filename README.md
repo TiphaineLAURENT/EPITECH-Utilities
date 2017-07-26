@@ -2,7 +2,7 @@
 
 Some utils useful to work on an EPITECH project
 
-## FINAl TOOLS
+## FINAL TOOLS
 
 - norme #not mine but useful for every student
 - CMake
@@ -32,10 +32,19 @@ CPPMake
 
 ### mr_clean
 
+Hide files deleted
 ```
-mr_clean -h *Hide files deleted*
-mr_clean -k *Keep files*
-mr_clean -h -k *Do basically nothing but still work*
+mr_clean -h
+```
+
+Keep files
+```
+mr_clean -k
+```
+
+Do basically nothing but still work
+```
+mr_clean -h -k
 ```
 
 ### prepare_my_repo
