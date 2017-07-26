@@ -42,7 +42,7 @@ elif [[ -n $1 ]]; then
     if [[ $OK == 1 ]]; then
        exit 84
     fi
-    echo "Repository créé"
+    echo "Repository $1 créé"
     echo "Droit de lecture attribué à ramassage-tek"
     echo "Repository copié"
 fi
