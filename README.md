@@ -15,6 +15,7 @@ Some utils useful to work on an EPITECH project
 ### Prerequisites
 
 These script are made to be used on Bash with Blih installed on.
+
 To install Blih (and most of EPITECH configurations and composants), check [this](https://github.com/kayofeld/script-installation-ordinateur-epitech).
 
 ### Installation
@@ -78,4 +79,5 @@ prepare_my_repo myrepo myfriend_1 my_friend_2
 ## Authors
 
 * **Tiphaine LAURENT** - *All my work* - [Github](https://github.com/TiphaineLAURENT)
+
 See also the list of [contributors](https://github.com/TiphaineLAURENT/.bin/contributors) who participated in this project.
