@@ -49,6 +49,7 @@ mr_clean -h -k
 
 ### prepare_my_repo
 
+Create myrepo repository and set right for reading and writing to myfriend_1 and my_friend_2
 ```
-prepare_my_repo myrepo myfriend_1 my_friend_2 *Create myrepo repository and set right for reading and writing to myfriend_1 and my_friend_2*
+prepare_my_repo myrepo myfriend_1 my_friend_2
 ```
