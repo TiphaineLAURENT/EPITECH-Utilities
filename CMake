@@ -7,6 +7,8 @@ BITS64="x86_64"
 
 SRC_DIR="src"
 
+linker="LDFLAGS\t\t=\t"
+
 ##########################################
 
 add_libmy()
@@ -19,8 +21,9 @@ add_libmy()
     if [[ $libmy == "o" ]] || [[ $libmy == "oui" ]] ||
 	   [[ $libmy == "y" ]] || [[ $libmy == "yes" ]];
     then
-	echo -e "LDFLAGS\t\t=\t-lmy -Llibs_srcs" >> Makefile
+	echo -e "LDLIBS\t\t=\t-lmy" >> Makefile
 	lib="on"
+	linker+="-Llibs_srcs"
     fi
 }
 
@@ -36,9 +39,9 @@ add_libmath()
     then
 	if [[ $lib == "on" ]];
 	then
-	    echo -e "LDFLAGS\t\t+=\t-lm" >> Makefile
+	    echo -e "LDLIBS\t\t+=\t-lm" >> Makefile
 	else
-	    echo -e "LDFLAGS\t\t=\t-lm" >> Makefile
+	    echo -e "LDLIBS\t\t=\t-lm" >> Makefile
 	fi
 	lib="on"
     fi
@@ -56,9 +59,9 @@ add_libcsfml()
     then
 	if [[ $lib == "on" ]];
 	then
-	    echo -e "LDFLAGS\t\t+=\t-lc_graph_prog_full" >> Makefile
+	    echo -e "LDLIBS\t\t+=\t-lc_graph_prog_full" >> Makefile
 	else
-	    echo -e "LDFLAGS\t\t=\t-lc_graph_prog_full" >> Makefile
+	    echo -e "LDLIBS\t\t=\t-lc_graph_prog_full" >> Makefile
 	fi
 	lib="on"
     fi
@@ -120,9 +123,13 @@ make_n() {
     add_libmy
     add_libmath
     add_libcsfml
+    if [[ $linker != "LDFLAGS\t\t=\t" ]];
+    then
+	echo -e $linker >> Makefile
+    fi
     if [[ $lib == "on" ]];
-       then
-	   echo >> Makefile
+    then
+	echo >> Makefile
     fi
 
     echo -e "SRC_DIR\t\t=\tsrc" >> Makefile
@@ -152,13 +159,17 @@ make_n() {
 
     echo -e "\$(NAME):\t\$(OBJS)" >> Makefile
 
+    echo -ne "\t\t\$(CC) -o \$(NAME) \$(OBJS)" >> Makefile
     if [[ $lib == "on" ]];
     then
-	echo -e "\t\t\$(CC) -o \$(NAME) \$(OBJS) \$(LDFLAGS)" >> Makefile
-    else
-	echo -e	"\t\t\$(CC) -o \$(NAME) \$(OBJS)" >> Makefile
+	echo -ne " \$(LDLIBS)" >> Makefile
+    fi
+    if [[ $linker != "LDFLAGS\t\t=\t" ]];
+    then
+	echo -ne " \$(LDFLAGS)" >> Makefile
     fi
 
+    echo >> Makefile
     echo >> Makefile
 
     echo "clean:" >> Makefile
@@ -189,7 +200,7 @@ header()
 
 header
 
-echo "##Press Ctrl+H then enter this file name and press enter" > Makefile
+echo "##Press Ctrl-C+H then enter this file name and press enter" > Makefile
 echo >> Makefile
 
 make_n

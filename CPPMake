@@ -22,9 +22,9 @@ add_libmath()
     then
 	if [[ "$lib" == "on" ]];
 	then
-	    echo -e "LDFLAGS\t\t+=\t-lm" >> Makefile
+	    echo -e "LDLIBS\t\t+=\t-lm" >> Makefile
 	else
-	    echo -e "LDFLAGS\t\t=\t-lm" >> Makefile
+	    echo -e "LDLIBS\t\t=\t-lm" >> Makefile
 	fi
 	lib="on"
     fi
@@ -42,9 +42,9 @@ add_libopengl()
     then
 	if [[ "$lib" == "on" ]];
 	then
-	    echo -e "LDFLAGS\t\t+=\t-lGL" >> Makefile
+	    echo -e "LDLIBS\t\t+=\t-lGL" >> Makefile
 	else
-	    echo -e "LDFLAGS\t\t=\t-lGL" >> Makefile
+	    echo -e "LDLIBS\t\t=\t-lGL" >> Makefile
 	fi
 	lib="on"
     fi
@@ -62,9 +62,9 @@ add_libsfml()
     then
 	if [[ "$lib" == "on" ]];
 	then
-	    echo -e "LDFLAGS\t\t+=\t-lsfml-audio -lsfml-graphics -lsfml-network -lsfml-system -lsfml-window" >> Makefile
+	    echo -e "LDLIBS\t\t+=\t-lsfml-audio -lsfml-graphics -lsfml-network -lsfml-system -lsfml-window" >> Makefile
 	else
-	    echo -e "LDFLAGS\t\t=\t-lsfml-audio -lsfml-graphics -lsfml-network -lsfml-system -lsfml-window" >> Makefile
+	    echo -e "LDLIBS\t\t=\t-lsfml-audio -lsfml-graphics -lsfml-network -lsfml-system -lsfml-window" >> Makefile
 	fi
 	lib="on"
     fi
@@ -165,7 +165,7 @@ make_n() {
 
     if [[ "$lib" == "on" ]];
     then
-	echo -e "\t\t\$(XX) -o \$(NAME) \$(OBJS) \$(LDFLAGS)" >> Makefile
+	echo -e "\t\t\$(XX) -o \$(NAME) \$(OBJS) \$(LDLIBS)" >> Makefile
     else
 	echo -e	"\t\t\$(XX) -o \$(NAME) \$(OBJS)" >> Makefile
     fi
