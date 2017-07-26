@@ -4,11 +4,11 @@ Some utils useful to work on an EPITECH project
 
 ## FINAL TOOLS
 
-- norme *Not mine but useful for every student*
-- CMake
-- CPPMake
-- mr_clean
-- prepare_my_repo
+- norme - **Check norm** - *Not mine but useful for every student*
+- CMake - **Create a Makefile for C programming**
+- CPPMake - **Create a Makefile for C++ programming**
+- mr_clean - **Remove temporary files** - *\*~ and \*.o*
+- prepare_my_repo - **Create a new repository with rights set**
 
 ## USAGE
 
