@@ -4,7 +4,7 @@ Some utils useful to work on an EPITECH project
 
 ## FINAL TOOLS
 
-- norme #not mine but useful for every student
+- norme *Not mine but useful for every student*
 - CMake
 - CPPMake
 - mr_clean
