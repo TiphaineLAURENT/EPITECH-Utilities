@@ -10,6 +10,27 @@ Some utils useful to work on an EPITECH project
 - mr_clean - **Remove temporary files** - *\*~ and \*.o*
 - prepare_my_repo - **Create a new repository with rights set**
 
+## Getting Started
+
+### Prerequisites
+
+These script are made to be used on Bash with Blih installed on.
+To install Blih (and most of EPITECH configurations and composants), check [this](https://github.com/kayofeld/script-installation-ordinateur-epitech).
+
+### Installation
+
+To install this directory, first open a terminal, then:
+
+- Clone this repository:
+```
+git clone git@github.com:TiphaineLAURENT/.bin.git
+```
+
+- Make it accessible to your environnement by adding his path to your PATH:
+```
+echo -e "export PATH=\$PATH":~/.bin"" >> ~/.bashrc
+```
+
 ## USAGE
 
 ### norme
