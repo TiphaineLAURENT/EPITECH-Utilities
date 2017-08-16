@@ -76,7 +76,21 @@ add_flags()
     echo -e "CXXFLAGS\t+=\t-Wswitch-default -Wswitch-enum" >> Makefile
     echo -e "CXXFLAGS\t+=\t-Wuninitialized -Winit-self" >> Makefile
     echo -e "CXXFLAGS\t+=\t-fstack-protector-strong" >> Makefile
-    echo -e "CXXFLAGS\t+=\t-pedantic" >> Makefile
+    echo -ne "CXXFLAGS\t+=\t-pedantic" >> Makefile
+
+    echo "Do you need to compile using an other standard version than C++17 ? : [n/version]"
+    read cstd
+    echo
+    local cstd="${cstd,,}"
+
+    if [[ "$cstd" == "no" ]] || [[ "$cstd" == "non" ]] ||
+	   [[ "$cstd" == "n" ]];
+    then
+	echo >> Makefile
+    else
+	echo -n " -std=" >> Makefile
+	echo $cstd >> Makefile
+    fi
 
     if [[ $HOSTTYPE == $BITS32 ]];
     then
