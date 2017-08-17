@@ -121,6 +121,12 @@ make_n() {
 
     add_flags
 
+    if [[ ! -d $HEADER_DIR ]];
+    then
+	echo "Creating $HEADER_DIR/ directory"
+	mkdir $HEADER_DIR
+    fi
+
     echo -e "CPPFLAGS\t=\t-I $HEADER_DIR" >> Makefile
     echo >> Makefile
 
@@ -134,6 +140,12 @@ make_n() {
     if [[ $lib == "on" ]];
     then
 	echo >> Makefile
+    fi
+
+    if [[ ! -d $SRC_DIR ]];
+    then
+	echo "Creating $SRC_DIR/ directory"
+	mkdir $SRC_DIR
     fi
 
     echo -e "SRC_DIR\t\t=\t$SRC_DIR" >> Makefile
@@ -154,6 +166,12 @@ make_n() {
     echo "Binary Name"
     read bin_name
     echo
+
+    if [[ ! -d $BIN_DIR ]];
+    then
+	echo "Creating $BIN_DIR/ directory"
+	mkdir $BIN_DIR
+    fi
 
     echo -e "BIN_DIR\t\t=\t$BIN_DIR" >> Makefile
     echo -e "BIN_NAME\t=\t$bin_name" >> Makefile
