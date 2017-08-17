@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LOGIN=`cat ~/.gitconfig 2> /dev/null | grep -E "emaiqsdl" | awk '{ printf $NF }'`
+LOGIN=`cat ~/.gitconfig 2> /dev/null | grep -E "email" | awk '{ printf $NF }'`
 GIT_SERVER="git@git.epitech.eu"
 
 #read oth
