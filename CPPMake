@@ -5,8 +5,12 @@
 BITS32="i686"
 BITS64="x86_64"
 
+HEADER_DIR="include"
 SRC_DIR="src"
 CLASS_DIR="class"
+BIN_DIR="bin"
+
+DEFAULT_SRC_FILE="main.cpp"
 
 ##########################################
 
@@ -134,7 +138,7 @@ make_n() {
 
     add_flags
 
-    echo -e "CPPFLAGS\t=\t-I include" >> Makefile
+    echo -e "CPPFLAGS\t=\t-I $HEADER_DIR" >> Makefile
     echo >> Makefile
 
     add_libmath
@@ -151,7 +155,7 @@ make_n() {
 
     echo -e "SRC_DIR\t\t=\t$SRC_DIR" >> Makefile
     echo -e "SRC_FILES\t=\t\$(addprefix \$(CLASS_DIR)/, \$(CLASS_SRC))\t\\" >> Makefile
-    echo -e "\t\t\tmain.cpp\t\t\t\t\t\\" >> Makefile
+    echo -e "\t\t\t$DEFAULT_SRC_FILE\t\t\t\t\t\\" >> Makefile
     echo >> Makefile
 
     echo -e "SRCS\t\t=\t\$(addprefix \$(SRC_DIR)/, \$(SRC_FILES))" >> Makefile
@@ -169,7 +173,9 @@ make_n() {
     read bin_name
     echo
 
-    echo -e "NAME\t\t=\t$bin_name" >> Makefile
+    echo -e "BIN_DIR\t\t=\t$BIN_DIR" >> Makefile
+    echo -e "BIN_NAME\t=\t$bin_name" >> Makefile
+    echo -e "NAME\t\t=\t\$(addprefix \$(BIN_DIR)/, \$(BIN_NAME))" >> Makefile
     echo >> Makefile
 
     echo -e "all:\t\t\$(NAME)" >> Makefile
