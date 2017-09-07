@@ -1,5 +1,11 @@
 #!/bin/bash
 
+############################
+#			   #
+# Made by Tiphaine LAURENT #
+#			   #
+############################
+
 LOGIN=`cat ~/.gitconfig 2> /dev/null | grep -E "email" | awk '{ printf $NF }'`
 GIT_SERVER="git@git.epitech.eu"
 

@@ -1,5 +1,11 @@
 #!/bin/bash
 
+############################
+#			   #
+# Made by Tiphaine LAURENT #
+#			   #
+############################
+
 ########### CONSTANT VARIABLES ###########
 
 BITS32="i686"
