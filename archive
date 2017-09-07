@@ -1,0 +1,10 @@
+#!/bin/sh
+
+dir=$(dirname $1)
+echo $dir
+
+name="."$(basename $1)".old"
+echo $name
+
+echo "Compressing $1 into $name at $dir"
+tar -czf $dir"/"$name".tar" $1
