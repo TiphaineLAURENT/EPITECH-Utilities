@@ -54,26 +54,34 @@ CPPMake
 
 ### mr_clean
 
-Hide files deleted
+Hide files deleted.
 ```
 mr_clean -h
 ```
 
-Keep files
+Keep files.
 ```
 mr_clean -k
 ```
 
-Do basically nothing but still work
+Do basically nothing but still work.
 ```
 mr_clean -h -k
 ```
 
 ### prepare_my_repo
 
-Create myrepo repository and set right for reading and writing to myfriend_1 and my_friend_2
+Create myrepo repository and set right for reading and writing to myfriend_1 and my_friend_2.
 ```
 prepare_my_repo myrepo myfriend_1 my_friend_2
+```
+
+### archive
+
+Create an archive of the desired file/directory.
+This do not check if an archive of the same name already exist.
+```
+archive mydir/myfile
 ```
 
 ## Authors
