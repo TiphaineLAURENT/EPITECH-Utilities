@@ -9,6 +9,7 @@ Some utils useful to work on an EPITECH project
 - CPPMake - **Create a Makefile for C++ programming**
 - mr_clean - **Remove temporary files** - *\*~ and \*.o*
 - prepare_my_repo - **Create a new repository with rights set**
+- archive - **Create an archive of a file/directory**
 
 ## Getting Started
 
@@ -36,18 +37,21 @@ echo -e "export PATH=\$PATH":~/.bin"" >> ~/.bashrc
 
 ### norme
 
+Check the norme in the current directory.
 ```
 norme
 ```
 
 ### CMake
 
+Create a Makefile designed for C programming.
 ```
 CMake
 ```
 
 ### CPPMake
 
+Create a Makefile designed for C++ programming.
 ```
 CPPMake
 ```
