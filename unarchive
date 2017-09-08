@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ############################
 #			   #
@@ -7,8 +7,8 @@
 ############################
 
 dir=$(dirname $1)
-name="."$(basename $1)".old"
+name=${1:1:$((${#1}-9))}
 
-echo "Compressing $1 into $name at $dir"
-tar -czf $dir"/"$name".tar" $1
-rm -r $1
+echo "Unarchiving $1 into $name at $dir"
+tar -xzf $1
+rm $1
