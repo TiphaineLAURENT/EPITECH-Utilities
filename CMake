@@ -13,6 +13,7 @@ BITS64="x86_64"
 
 HEADER_DIR="include"
 SRC_DIR="src"
+UTIL_DIR="util"
 BIN_DIR="bin"
 
 DEFAULT_SRC_FILE="main.c"
@@ -121,10 +122,9 @@ add_flags()
 add_src_files()
 {
     local arr=($(find src -type f \( -name "*.c" ! -iname $DEFAULT_SRC_FILE \)))
-    echo -e "SRC_FILES\t=\t$DEFAULT_SRC_FILE\t\\" >> Makefile
     for i in ${arr[@]}; do
-	echo -e "\t\t\t${i:4}\t\\" >> Makefile
-done
+	echo -e "\t\t\t${i:4}\t\t\t\\" >> Makefile
+    done
 }
 
 make_n() {
@@ -157,7 +157,14 @@ make_n() {
 	echo >> Makefile
     fi
 
+    echo -e "UTIL_DIR\t=\t$UTIL_DIR" >> Makefile
+    echo -e "UTIL_SRC\t=\t\\" >> Makefile
+    echo >> Makefile
+
     echo -e "SRC_DIR\t\t=\t$SRC_DIR" >> Makefile
+    echo -e "SRC_FILES\t=\t\$(addprefix \$(UTIL_DIR)/, \$(UTIL_SRC))\t\\" >> Makefile
+    echo -e "\t\t\t$DEFAULT_SRC_FILE\t\t\t\t\\" >> Makefile
+
     if [[ ! -d $SRC_DIR ]];
     then
 	echo "Creating $SRC_DIR/ directory"
@@ -168,6 +175,11 @@ make_n() {
 	add_src_files
     fi
     echo >> Makefile
+    if [[ ! -d $SRC_DIR/$UTIL_DIR ]];
+    then
+	echo "Creating $UTIL_DIR/ directory"
+	mkdir $SRC_DIR/$UTIL_DIR
+    fi
 
     echo -e "SRCS\t\t=\t\$(addprefix \$(SRC_DIR)/, \$(SRC_FILES))" >> Makefile
     if [[ $temp == "on" ]];
