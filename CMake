@@ -118,6 +118,15 @@ add_flags()
     echo >> Makefile
 }
 
+add_src_files()
+{
+    local arr=($(find src -type f \( -name "*.c" ! -iname $DEFAULT_SRC_FILE \)))
+    echo -e "SRC_FILES\t=\t$DEFAULT_SRC_FILE\t\\" >> Makefile
+    for i in ${arr[@]}; do
+	echo -e "\t\t\t${i:4}\t\\" >> Makefile
+done
+}
+
 make_n() {
     echo -e "CC\t\t=\tgcc" >> Makefile
     echo >> Makefile
@@ -148,14 +157,16 @@ make_n() {
 	echo >> Makefile
     fi
 
+    echo -e "SRC_DIR\t\t=\t$SRC_DIR" >> Makefile
     if [[ ! -d $SRC_DIR ]];
     then
 	echo "Creating $SRC_DIR/ directory"
 	mkdir $SRC_DIR
+	touch $SRC_DIR"/"$DEFAULT_SRC_FILE
+	echo -e "SRC_FILES\t=\t$DEFAULT_SRC_FILE\t\\" >> Makefile
+    else
+	add_src_files
     fi
-
-    echo -e "SRC_DIR\t\t=\t$SRC_DIR" >> Makefile
-    echo -e "SRC_FILES\t=\t$DEFAULT_SRC_FILE\t\\" >> Makefile
     echo >> Makefile
 
     echo -e "SRCS\t\t=\t\$(addprefix \$(SRC_DIR)/, \$(SRC_FILES))" >> Makefile

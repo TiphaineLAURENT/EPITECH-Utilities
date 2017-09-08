@@ -13,7 +13,7 @@ BITS64="x86_64"
 
 HEADER_DIR="include"
 SRC_DIR="src"
-CLASS_DIR="class"
+UTIL_DIR="util"
 BIN_DIR="bin"
 
 DEFAULT_SRC_FILE="main.cpp"
@@ -135,6 +135,14 @@ add_flags()
     echo >> Makefile
 }
 
+add_src_files()
+{
+    local arr=($(find src -type f \( -name "*.cpp" ! -iname $DEFAULT_SRC_FILE \)))
+    for i in ${arr[@]}; do
+	echo -e "\t\t\t${i:4}\t\t\\" >> Makefile
+    done
+}
+
 make_n() {
     echo -e "XX\t\t=\tg++" >> Makefile
     echo >> Makefile
@@ -161,25 +169,28 @@ make_n() {
 	   echo >> Makefile
     fi
 
-    if [[ ! -d $SRC_DIR ]];
-    then
-	echo "Creating $SRC_DIR/ directory"
-	mkdir -p $SRC_DIR/$CLASS_DIR
-    fi
-    if [[ ! -d $SRC_DIR/$CLASS_DIR ]];
-    then
-	echo "Creating $CLASS_DIR/ directory"
-	mkdir $SRC_DIR/$CLASS_DIR
-    fi
-
-    echo -e "CLASS_DIR\t=\t$CLASS_DIR" >> Makefile
-    echo -e "CLASS_SRC\t=\t\\" >> Makefile
+    echo -e "UTIL_DIR\t=\t$UTIL_DIR" >> Makefile
+    echo -e "UTIL_SRC\t=\t\\" >> Makefile
     echo >> Makefile
 
     echo -e "SRC_DIR\t\t=\t$SRC_DIR" >> Makefile
-    echo -e "SRC_FILES\t=\t\$(addprefix \$(CLASS_DIR)/, \$(CLASS_SRC))\t\\" >> Makefile
-    echo -e "\t\t\t$DEFAULT_SRC_FILE\t\t\t\t\t\\" >> Makefile
+    echo -e "SRC_FILES\t=\t\$(addprefix \$(UTIL_DIR)/, \$(UTIL_SRC))\t\\" >> Makefile
+    echo -e "\t\t\t$DEFAULT_SRC_FILE\t\t\t\t\\" >> Makefile
+
+    if [[ ! -d $SRC_DIR ]];
+    then
+	echo "Creating $SRC_DIR/ directory"
+	mkdir -p $SRC_DIR/$UTIL_DIR
+	touch $SRC_DIR"/"$DEFAULT_SRC_FILE
+    else
+	add_src_files
+    fi
     echo >> Makefile
+    if [[ ! -d $SRC_DIR/$UTIL_DIR ]];
+    then
+	echo "Creating $UTIL_DIR/ directory"
+	mkdir $SRC_DIR/$UTIL_DIR
+    fi
 
     echo -e "SRCS\t\t=\t\$(addprefix \$(SRC_DIR)/, \$(SRC_FILES))" >> Makefile
     if [[ "$temp" == "on" ]];
