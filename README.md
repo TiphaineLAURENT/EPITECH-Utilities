@@ -28,7 +28,12 @@ To install this directory, first open a terminal, then:
 git clone git@github.com:TiphaineLAURENT/.bin.git
 ```
 
-- Make it accessible to your environnement by adding his path to your PATH:
+-Use the 'install.sh' script:
+```
+./install.sh
+```
+
+- OR manually make it accessible to your environnement by adding his path to your PATH:
 ```
 echo -e "export PATH=\$PATH":~/.bin"" >> ~/.bashrc
 ```
