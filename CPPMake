@@ -96,11 +96,10 @@ add_flags()
     if [[ "$cstd" == "no" ]] || [[ "$cstd" == "non" ]] ||
 	   [[ "$cstd" == "n" ]];
     then
-	echo >> Makefile
-    else
-	echo -n " -std=" >> Makefile
-	echo $cstd >> Makefile
+	cstd="c++17"
     fi
+    echo -n " -std=" >> Makefile
+    echo $cstd >> Makefile
 
     if [[ $HOSTTYPE == $BITS32 ]];
     then
