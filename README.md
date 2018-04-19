@@ -4,7 +4,6 @@ Some utils useful to work on an EPITECH project
 
 ## FINAL TOOLS
 
-- norme - **Check norm** - *Not mine but useful for every student*
 - CMake - **Create a Makefile for C programming**
 - CPPMake - **Create a Makefile for C++ programming**
 - mr_clean - **Remove temporary files** - *\*~ and \*.o*
@@ -48,13 +47,6 @@ bash
 ```
 
 ## USAGE
-
-### norme
-
-Check the norme in the current directory.
-```
-norme
-```
 
 ### CMake
 
