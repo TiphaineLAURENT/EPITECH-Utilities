@@ -9,13 +9,6 @@
 LOGIN=`cat ~/.gitconfig 2> /dev/null | grep -E "email" | awk '{ printf $NF }'`
 GIT_SERVER="git@git.epitech.eu"
 
-#read oth
-#while [ -n $oth ]; do
-#    echo "$oth"
-#    echo "test"
-#    read oth
-#done
-
 if [[ -z $LOGIN ]]; then
     echo
     echo "Configure GIT first :"

@@ -32,7 +32,7 @@ then
     unset delete
 fi
 
-find . -type f \( -name "*~" -o -name "#*#" \) -not -path '*\.emacs.d/backup*' $print $delete #-path ~/.emacs.d/backup -prune # Do not work with -delete
+find . -type f \( -name "*~" -o -name "#*#" \) -not -path '.backup' $print $delete
 
 unset option1
 unset option2
