@@ -163,7 +163,7 @@ make_n() {
 
     echo -e "SRC_DIR\t\t=\t$SRC_DIR" >> Makefile
     echo -e "SRC_FILES\t=\t\$(addprefix \$(UTIL_DIR)/, \$(UTIL_SRC))\t\\" >> Makefile
-    echo -e "\t\t\t$DEFAULT_SRC_FILE\t\t\t\t\\" >> Makefile
+    #echo -e "\t\t\t$DEFAULT_SRC_FILE\t\t\t\t\\" >> Makefile
 
     if [[ ! -d $SRC_DIR ]];
     then
