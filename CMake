@@ -121,9 +121,9 @@ add_flags()
 
 add_src_files()
 {
-    local arr=($(find src -type f \( -name "*.c" ! -iname $DEFAULT_SRC_FILE \)))
+    local arr=($(find src -type f \( -name "*.c" \))) # ! -iname $DEFAULT_SRC_FILE 
     for i in ${arr[@]}; do
-	echo -e "\t\t\t${i:4}\t\t\t\\" >> Makefile
+	echo -e "\t\t=\t${i:4}\t\t\t\\" >> Makefile
     done
 }
 
@@ -163,17 +163,15 @@ make_n() {
 
     echo -e "SRC_DIR\t\t=\t$SRC_DIR" >> Makefile
     echo -e "SRC_FILES\t=\t\$(addprefix \$(UTIL_DIR)/, \$(UTIL_SRC))\t\\" >> Makefile
-    #echo -e "\t\t\t$DEFAULT_SRC_FILE\t\t\t\t\\" >> Makefile
 
     if [[ ! -d $SRC_DIR ]];
     then
 	echo "Creating $SRC_DIR/ directory"
 	mkdir $SRC_DIR
 	touch $SRC_DIR"/"$DEFAULT_SRC_FILE
-	echo -e "SRC_FILES\t=\t$DEFAULT_SRC_FILE\t\\" >> Makefile
-    else
-	add_src_files
     fi
+    add_src_files
+
     echo >> Makefile
     if [[ ! -d $SRC_DIR/$UTIL_DIR ]];
     then
