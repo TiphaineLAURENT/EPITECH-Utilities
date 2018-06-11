@@ -123,7 +123,7 @@ add_src_files()
 {
     local arr=($(find src -type f \( -name "*.c" \))) # ! -iname $DEFAULT_SRC_FILE 
     for i in ${arr[@]}; do
-	echo -e "\t\t=\t${i:4}\t\t\t\\" >> Makefile
+	echo -e "\t\t\t${i:4}\t\t\t\\" >> Makefile
     done
 }
 
