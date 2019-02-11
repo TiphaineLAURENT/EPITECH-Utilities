@@ -6,7 +6,7 @@ Some utils useful to work on an EPITECH project
 
 - CMake - **Create a Makefile for C programming**
 - CPPMake - **Create a Makefile for C++ programming**
-- mr_clean - **Remove temporary files** - *\*~ and \*.o*
+- mr_clean - **Remove Emacs temporary files** - *\*~ and \*.o*
 - prepare_my_repo - **Create a new repository with rights set**
 - archive - **Create an archive of a file/directory**
 
