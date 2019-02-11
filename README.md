@@ -69,7 +69,7 @@ Hide files deleted.
 mr_clean -h
 ```
 
-Keep files.
+See files which need deletion without deleting them.
 ```
 mr_clean -k
 ```
