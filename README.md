@@ -43,7 +43,7 @@ bash
 
 - Use the install script provided:
 ```
-./.bin/install.sh
+bash install.sh
 ```
 
 ## USAGE
